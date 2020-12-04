@@ -6,7 +6,7 @@ const Login = () => {
   const [num, setNum] = useState("");
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
-  const [otp, setOtp] = useState("false");
+  const [otp, setOtp] = useState(false);
   const [uotp, setUotp] = useState("");
 
   const handleChange = (name) => (e) => {
