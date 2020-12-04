@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { saveUser, sendOTP } from "../controller";
-import { set } from "mongoose";
+import { Redirect } from "react-router-dom";
 
 const Login = () => {
   const [num, setNum] = useState("");
@@ -8,6 +8,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const [otp, setOtp] = useState(false);
   const [uotp, setUotp] = useState("");
+  const [redirect, setRedirect] = useState(false);
 
   const handleChange = (name) => (e) => {
     if (name === "num") {
@@ -36,11 +37,21 @@ const Login = () => {
         if (!uotp) {
           setError("Please Enter the otp");
         } else {
-          saveUser(num, code, uotp);
+          const response= await saveUser(num, code, uotp);
+          if(response.err){
+          setError(response.err)
+          }else{
+           setRedirect(true);
+          }
         }
       }
     }
   };
+  
+  
+  if (redirect) {
+    return <Redirect to='/profile' />;
+  }
 
   return (
     <div className='container'>
