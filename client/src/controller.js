@@ -1,6 +1,6 @@
 import axios from "axios";
 export const saveUser = async (num, code) => {
-  const response = await axios.post("http://localhost:5000/api/otp", {
+  const response = await axios.post("http://localhost:5000/api/phonenumber/auth", {
     phonenum: num,
     countrycode: code,
   });
@@ -9,7 +9,7 @@ export const saveUser = async (num, code) => {
 
 export const sendOTP = async (num, code, otp) => {
   const response = await axios.post(
-    "http://localhost:5000/api/phonenumber/auth",
+    "http://localhost:5000/api/otp",
     {
       phonenum: num,
       countrycode: code,
