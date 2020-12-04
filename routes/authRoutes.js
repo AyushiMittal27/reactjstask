@@ -58,22 +58,41 @@ module.exports = (app) => {
     res.json({ msg: "OTP SEND" });
   });
 
-  app.post(
+ app.post(
     "/api/phonenumber/auth",
-    (req, res, next) => {
+    async (req, res, next) => {
       const { phonenum, countrycode, otp } = req.body;
       let number = `+${countrycode}-${phonenum}`;
-      sendOtp.verify(number, otp, function (err, data) {
+       sendOtp.verify(number, otp, function (err, data) {
         if (data.type == "success") {
           next();
         } else {
           return res.json({ err: "Invalid OPT" });
-        }
+        } 
+      }); 
+      const existingUser = await User.findOne({
+        phonenum,
+        countrycode,
       });
+      if (existingUser) {
+        req.body.username = existingUser.id;
+        console.log(req.body.username, "ud");
+        req.body.password = "password";
+      } else {
+        const user = await new User({
+          phonenum: phonenum,
+          countrycode: countrycode,
+        }).save();
+
+        req.body.username = user.id;
+        console.log(req.body.username, "ud");
+        req.body.password = "password";
+      }
+      next();
     },
     passport.authenticate("local"),
     (req, res) => {
-      res.redirect("http://localhost:3000/profile");
+      res.json({ msg: "succesfull" });
     }
   );
 };
