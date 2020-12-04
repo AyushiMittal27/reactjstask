@@ -19,14 +19,14 @@ const Login = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     setError("");
     if (!num || !code) {
       setError("Please Enter the required details");
     } else {
       if (!otp) {
-        const response = sendOTP(num, code);
+        const response = await sendOTP(num, code);
         if (response.err) {
           setError(response.err);
         } else {
