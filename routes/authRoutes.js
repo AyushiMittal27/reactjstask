@@ -70,7 +70,6 @@ module.exports = (app) => {
           return res.json({ err: "Invalid OPT" });
         }
       });
-      next();
     },
     passport.authenticate("local"),
     (req, res) => {
