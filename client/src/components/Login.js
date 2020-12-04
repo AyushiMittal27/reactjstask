@@ -61,7 +61,7 @@ const Login = () => {
           name='phonenum'
           onChange={handleChange("num")}
         />
-        {!otp && (
+        {otp && (
           <input
             type='text'
             placeholder='Enter the OTP'
