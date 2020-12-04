@@ -57,20 +57,9 @@ passport.use(
 );
 
 passport.use(
-  new LocalStrategy(async (phonenum, countrycode, done) => {
-    console.log("phonenum ", phonenum);
-
-    const existingUser = await User.findOne({
-      phonenum: phonenum,
-      countrycode: countrycode,
-    });
-    if (existingUser) {
-      return done(none, existingUser);
-    }
-    const user = await new User({
-      phonenum: phonenum,
-      countrycode: countrycode,
-    }).save();
+  new LocalStrategy(async (username, password, done) => {
+    // console.log(username, password);
+    const user = await User.findById(username);
     done(null, user);
   })
 );
